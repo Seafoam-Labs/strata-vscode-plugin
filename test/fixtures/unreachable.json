@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "ok": false,
+  "error": {
+    "code": 3,
+    "message": "cannot reach Strata server: URLError"
+  }
+}

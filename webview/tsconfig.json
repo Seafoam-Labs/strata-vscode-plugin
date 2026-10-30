@@ -1,0 +1,4 @@
+{
+  "compilerOptions": { "target": "ES2022", "module": "none", "lib": ["ES2022", "DOM", "DOM.Iterable"], "outDir": "../media", "strict": true, "skipLibCheck": true, "types": [], "noUnusedLocals": true },
+  "include": ["main.ts"]
+}

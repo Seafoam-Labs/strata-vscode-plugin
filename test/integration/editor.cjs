@@ -1,0 +1,30 @@
+const assert = require('node:assert/strict');
+const vscode = require('vscode');
+exports.run = async () => {
+  const extension = vscode.extensions.getExtension('strata-local.strata-control');
+  assert.ok(extension,'Extension must be installed');
+  const api = await extension.activate();
+  assert.equal(api.state().supported,true,api.state().error);
+  assert.equal(api.state().profiles[0].id,'demo');
+  const document = await vscode.workspace.openTextDocument({content:'// Source editor remains open beside Strata\n',language:'javascript'});
+  await vscode.window.showTextDocument(document);
+  await vscode.commands.executeCommand('strata.overview.focus');
+  const waitFor = async (view) => {
+    const deadline = Date.now() + 15000;
+    while(!api.views().includes(view) && Date.now() < deadline) await new Promise(r=>setTimeout(r,100));
+    assert.ok(api.views().includes(view), `${view} webview must load its scripts and handshake`);
+  };
+  await waitFor('sidebar');
+  await vscode.commands.executeCommand('strata.selectProfile','demo');
+  assert.equal(api.state().selected,'demo');
+  assert.equal(api.state().snapshot.rates.answer_tok_s,42.5);
+  assert.equal(api.state().runtime.state,'stopped');
+  await vscode.commands.executeCommand('strata.dashboard');
+  await waitFor('dashboard');
+  await vscode.commands.executeCommand('strata.refresh');
+  assert.equal(api.state().logs.length,2,'Shared views must not duplicate events');
+  assert.equal(api.state().error,'');
+  const commands = await vscode.commands.getCommands(true);
+  for (const command of ['start','stop','restart','verify','monitor','launch','browse','doctor','createProfile']) assert.ok(commands.includes(`strata.${command}`));
+  console.log(`STRATA_EDITOR_SMOKE_OK ${vscode.env.appName} ${vscode.version}`);
+};

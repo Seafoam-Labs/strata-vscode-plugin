@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "ok": true,
+  "profile": {
+    "id": "demo",
+    "overrides": {
+      "host": "127.0.0.1",
+      "parallel": 1,
+      "port": 8080
+    },
+    "schema_version": 1,
+    "source_config": "/tmp/model.json"
+  },
+  "revision": "cccccccccccccccc",
+  "plan": {
+    "profile": "demo",
+    "profile_revision": "cccccccccccccccc",
+    "source_config": "/tmp/model.json",
+    "model_name": "Demo model",
+    "effective": {
+      "host": "127.0.0.1",
+      "port": 8080,
+      "parallel": 1,
+      "batch_groups": null,
+      "max_queue": null,
+      "queue_timeout": null,
+      "offline": false,
+      "batch_telemetry": false
+    },
+    "origin": {
+      "host": "saved_profile",
+      "port": "saved_profile",
+      "parallel": "saved_profile",
+      "batch_groups": "default",
+      "max_queue": "default",
+      "queue_timeout": "default",
+      "offline": "default",
+      "batch_telemetry": "default"
+    },
+    "server_argv": [
+      "--config",
+      "/tmp/model.json"
+    ],
+    "ready_file": null,
+    "engine_exe": "component:strata-engine",
+    "engine_argv": [],
+    "notes": []
+  }
+}

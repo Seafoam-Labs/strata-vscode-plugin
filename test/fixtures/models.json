@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "ok": true,
+  "scope": "local_run_configs",
+  "install_dir": "/tmp/strata",
+  "install_dir_source": "remembered",
+  "install_dirs": [
+    "/tmp/strata"
+  ],
+  "models": [
+    {
+      "id": "demo-model",
+      "name": "Demo model",
+      "source_config": "/tmp/model.json",
+      "source_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "backend": null,
+      "context_tokens": 262144,
+      "component_status": "present",
+      "issue_codes": [],
+      "missing": [],
+      "execution_compatibility": "unverified",
+      "install_dir": "/tmp/strata",
+      "install_dir_source": "remembered"
+    }
+  ],
+  "model_count": 1,
+  "discovery_limit": 128
+}

@@ -1,0 +1,211 @@
+{
+  "name": "strata-control",
+  "displayName": "Strata Control",
+  "description": "A live Strata sidebar: local engine controls, performance, profiles, models, logs, and terminal workflows.",
+  "version": "0.1.0",
+  "publisher": "strata-local",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "strata",
+    "inference",
+    "local",
+    "engine",
+    "vscodium"
+  ],
+  "main": "./dist/extension.js",
+  "extensionKind": [
+    "ui"
+  ],
+  "activationEvents": [
+    "onView:strata.overview"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "Trust the workspace to execute Strata commands."
+    },
+    "virtualWorkspaces": false
+  },
+  "scripts": {
+    "compile": "tsc -p . && tsc -p webview",
+    "check": "tsc -p . --noEmit && tsc -p webview --noEmit",
+    "test": "npm run compile && node --test test/*.test.cjs",
+    "test:editor": "npm run compile && node scripts/test-editor.cjs",
+    "package": "vsce package --no-dependencies --allow-missing-repository --out strata-control.vsix",
+    "vscode:prepublish": "npm run compile",
+    "test:package": "node scripts/test-package.cjs",
+    "check:installed": "node scripts/check-installed.cjs"
+  },
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "strata",
+          "title": "Strata",
+          "icon": "media/strata.svg"
+        }
+      ]
+    },
+    "views": {
+      "strata": [
+        {
+          "id": "strata.overview",
+          "name": "Engine",
+          "type": "webview"
+        },
+        {
+          "id": "strata.profiles",
+          "name": "Profiles",
+          "visibility": "collapsed"
+        },
+        {
+          "id": "strata.models",
+          "name": "Models",
+          "visibility": "collapsed"
+        },
+        {
+          "id": "strata.commands",
+          "name": "Commands",
+          "visibility": "collapsed"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "strata.refresh",
+        "title": "Refresh",
+        "category": "Strata",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "strata.dashboard",
+        "title": "Expand Dashboard",
+        "category": "Strata",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "strata.selectProfile",
+        "title": "Select Profile",
+        "category": "Strata"
+      },
+      {
+        "command": "strata.createProfile",
+        "title": "Create Profile from Model",
+        "category": "Strata"
+      },
+      {
+        "command": "strata.start",
+        "title": "Start Engine",
+        "category": "Strata"
+      },
+      {
+        "command": "strata.stop",
+        "title": "Stop Engine",
+        "category": "Strata"
+      },
+      {
+        "command": "strata.restart",
+        "title": "Restart Engine",
+        "category": "Strata"
+      },
+      {
+        "command": "strata.verify",
+        "title": "Verify Engine",
+        "category": "Strata"
+      },
+      {
+        "command": "strata.monitor",
+        "title": "Open TUI Monitor",
+        "category": "Strata",
+        "icon": "$(terminal)"
+      },
+      {
+        "command": "strata.launch",
+        "title": "Open Guided Setup",
+        "category": "Strata"
+      },
+      {
+        "command": "strata.browse",
+        "title": "Browse Commands",
+        "category": "Strata"
+      },
+      {
+        "command": "strata.doctor",
+        "title": "Run Diagnostics",
+        "category": "Strata"
+      },
+      {
+        "command": "strata.credential",
+        "title": "Set Local Endpoint Credential",
+        "category": "Strata"
+      },
+      {
+        "command": "strata.settings",
+        "title": "Configure Extension",
+        "category": "Strata"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "strata.refresh",
+          "when": "view == strata.overview",
+          "group": "navigation"
+        },
+        {
+          "command": "strata.dashboard",
+          "when": "view == strata.overview",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Strata",
+      "properties": {
+        "strata.executablePath": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "Absolute path to Strata. Empty discovers Strata on the system PATH, excluding relative paths."
+        },
+        "strata.endpoint": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "Optional loopback HTTP(S) URL for monitoring. Empty uses the selected profile's running endpoint or saved host and port. Monitoring does not establish runtime ownership."
+        },
+        "strata.refreshInterval": {
+          "type": "number",
+          "default": 2,
+          "minimum": 1,
+          "maximum": 30,
+          "scope": "machine",
+          "description": "Refresh interval in seconds while a Strata view is visible."
+        },
+        "strata.hiddenRefreshInterval": {
+          "type": "number",
+          "default": 30,
+          "minimum": 10,
+          "maximum": 300,
+          "scope": "machine",
+          "description": "Refresh interval when Strata views are hidden."
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "@types/vscode": "^1.96.0",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.1.0",
+    "jsdom": "^30.1.3",
+    "typescript": "^5.9.3"
+  },
+  "preview": true
+}

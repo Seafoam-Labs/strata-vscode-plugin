@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "ok": true,
+  "profiles": [
+    {
+      "id": "demo",
+      "revision": "cccccccccccccccc",
+      "source_config": "/tmp/model.json"
+    }
+  ]
+}

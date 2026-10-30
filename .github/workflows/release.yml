@@ -1,0 +1,41 @@
+name: Package and publish
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish to both configured registries
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run package
+      - run: xvfb-run -a npm run test:package
+      - uses: actions/upload-artifact@v4
+        with:
+          name: strata-control-vsix
+          path: strata-control.vsix
+      - name: Check publishing identity
+        if: inputs.publish
+        run: node -e "if(require('./package.json').publisher==='strata-local') throw Error('Set an owned publisher in package.json before publishing')"
+      - name: Publish Visual Studio Marketplace
+        if: inputs.publish
+        run: npx --no-install vsce publish --packagePath strata-control.vsix
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+      - name: Publish Open VSX
+        if: inputs.publish
+        run: npx --yes ovsx publish strata-control.vsix
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}

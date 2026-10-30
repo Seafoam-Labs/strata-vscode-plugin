@@ -1,0 +1,12 @@
+.vscode/**
+.github/**
+.vscode-test/**
+src/**
+webview/**
+test/**
+scripts/**
+node_modules/**
+tsconfig.json
+package-lock.json
+.gitignore
+IMPLEMENTATION_PLAN.md

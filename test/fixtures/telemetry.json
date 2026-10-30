@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "ok": true,
+  "snapshot": {
+    "schema_version": 1,
+    "source": "test-fixture",
+    "sampled_at": 1793361600,
+    "instance": {"id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "state": "ready"},
+    "model": {"id": "Demo model", "loaded": true, "context": 32768},
+    "work": {"active": 1, "queued": 0, "slots_effective": 2, "slots": [], "requests": []},
+    "rates": {"answer_tok_s": 42.5, "prefill_tok_s": 2000},
+    "devices": [{"index": 0, "name": "Fixture GPU", "mem_used": 1073741824, "mem_total": 8589934592, "util": 50}],
+    "ram": {"used": 4294967296, "total": 17179869184},
+    "activity": {"available": true, "last_seq": 2, "events": [{"seq": 1, "type": "admitted", "request_id": "r1"}, {"seq": 2, "type": "completed", "request_id": "r1"}]},
+    "recent": [], "topology": {}, "quality": {"telemetry": "available"}, "totals": {"requests": 1}
+  }
+}
