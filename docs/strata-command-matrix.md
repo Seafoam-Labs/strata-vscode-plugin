@@ -1,6 +1,6 @@
 # Strata CLI contract matrix
 
-Checked against the installed `/opt/strata` Control source and `strata --help`, version 0.2.8/build 0.1.54. Every JSON response must have `schema_version: 1` and boolean `ok`; unsupported envelopes fail closed. The runtime adapter never parses human terminal output for telemetry.
+Checked against the installed `/opt/strata` Control source and `strata --help`, version 0.2.13.1/build 0.1.59.1 (previously 0.2.8/build 0.1.54). Every JSON response must have `schema_version: 1` and boolean `ok`; unsupported envelopes fail closed. The runtime adapter never parses human terminal output for telemetry.
 
 | Command | Integration |
 | --- | --- |
@@ -14,6 +14,7 @@ Checked against the installed `/opt/strata` Control source and `strata --help`, 
 | doctor | Structured diagnostic report |
 | serve | Help and reviewed terminal arguments |
 | engine | Help and reviewed terminal arguments (including calibration) |
+| split-engine | Help and reviewed terminal arguments; writes a split-engine run config, never edits the input (0.2.13+) |
 | presets | Help and reviewed terminal arguments |
 | config | Help and reviewed terminal arguments |
 | connect | Help and reviewed terminal arguments |
@@ -50,11 +51,11 @@ The full TUI includes overview history graphs and detailed device/topology rende
 
 ## Runtime contracts
 
-- Start: `runtime start --profile NAME --plan --json` returns `plan.profile`, `plan.launch`, and `plan.source_sha256`. Re-preview before execution. The public CLI does not expose expected revision/source flags for start.
+- Start: `runtime start --profile NAME --plan --json` returns `plan.profile`, `plan.launch`, and `plan.source_sha256` (0.2.13 also reports `plan.shutdown_timeout` and `plan.would_start`). Re-preview before execution. The public CLI does not expose expected revision/source flags for start.
 - Stop: preview returns `plan.owner_id` and optionally `plan.instance_id`. Execution requires `--if-owner-id`, plus `--if-instance-id` when present. A starting instance may not have an instance ID yet.
 - Restart: preview fields are at the envelope root, not inside `plan`: `current_owner_id`, `current_instance_id`, `candidate_profile_revision`, `candidate_source_sha256`. All four become execution guards. Source migration/switch flags are not enabled automatically.
 - Verify: preview returns owner and instance IDs; execution guards both. This is an explicit test-generation action.
-- State: `ready` is displayed as Running. Stopped, starting, failed, unknown, and unreachable information remain distinct. Telemetry may be reachable independently of the selected owned runtime.
+- State: `ready` is displayed as Running. Stopped, starting, failed, unknown, and unreachable information remain distinct. Telemetry may be reachable independently of the selected owned runtime. `stale` (0.2.13+) means the owner host was lost; `runtime start` is the upstream recovery path, so the sidebar keeps Start available and leaves Stop/restart disabled until an owned instance is reported.
 - Source selection: `profile use-config` accepts `--if-revision` from its preview.
 - Settings and rollback: recheck before applying; upstream lacks atomic cross-process preview guards for these public CLI paths.
 

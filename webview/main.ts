@@ -129,7 +129,8 @@ declare function acquireVsCodeApi(): WebviewApi;
       for (const key of keys) { const val = effective[key]; baseline[key] = val == null ? '' : String(val); $<HTMLInputElement>(`field-${key}`).value = baseline[key]; }
     }
     for (const id of ['start', 'stop', 'restart', 'verify', 'useModel', 'validateProfile', 'history', 'saveSettings']) $<HTMLButtonElement>(id).disabled = !ready || !hasProfile || busy;
-    if (runtimeState !== 'stopped') $<HTMLButtonElement>('start').disabled = true;
+    // `stale` (0.2.13+): the owner host was lost; `runtime start` recovers the leftovers, so keep Start available.
+    if (!['stopped', 'stale'].includes(runtimeState)) $<HTMLButtonElement>('start').disabled = true;
     if (!runtime.owner_id || !['ready', 'starting', 'failed'].includes(runtimeState)) $<HTMLButtonElement>('stop').disabled = true;
     if (runtimeState !== 'ready') { $<HTMLButtonElement>('restart').disabled = true; $<HTMLButtonElement>('verify').disabled = true; }
     for (const id of ['createProfile', 'browse', 'doctor', 'launch']) $<HTMLButtonElement>(id).disabled = !ready || busy;

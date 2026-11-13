@@ -5,7 +5,7 @@ const a = 'a'.repeat(32), b = 'b'.repeat(32), r = 'c'.repeat(16);
 const send = (data, code = 0) => { process.stdout.write(JSON.stringify({schema_version: 1, ok: true, ...data}) + '\n'); process.exitCode = code; };
 const fixture = (name) => JSON.parse(fs.readFileSync(require('node:path').join(__dirname, name + '.json'), 'utf8'));
 if (process.env.STRATA_FAKE_TRACE) fs.appendFileSync(process.env.STRATA_FAKE_TRACE, JSON.stringify(args) + '\n');
-if (args[0] === '--version') console.log('strata 0.2.8 (build 0.1.54; fake test executable)');
+if (args[0] === '--version') console.log('strata 0.2.13.1 (build 0.1.59.1; fake test executable)');
 else if (args.includes('--help')) console.log('usage: strata ' + args[0] + ' [--help]\nFixture command help');
 else if (args[0] === 'test') {
   if (args[1] === 'delay') setTimeout(() => send({}), 30000);

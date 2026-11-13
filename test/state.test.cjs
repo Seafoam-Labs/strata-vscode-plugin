@@ -42,6 +42,21 @@ test('profile switch discards late snapshots and overlapping refreshes coalesce'
   const select=service.select('new'); release(); await first; await select;
   assert.equal(service.state.selected,'new'); assert.equal(service.state.profile.profile.id,'new'); assert.equal(count,2);
 });
+test('stale owner host (0.2.13) is surfaced without breaking refresh', async t => {
+  const runner = {json: async args => {
+    if(args[0]==='profile' && args[1]==='list') return {profiles:[{id:'demo'}]};
+    if(args[0]==='models') return {models:[]};
+    if(args[0]==='profile') return {profile:{id:'demo'},revision:'c'.repeat(16),plan:{effective:{host:'127.0.0.1',port:8080}}};
+    if(args[0]==='runtime') return {ok:false,profile:'demo',state:'stale',error:'owner_host_lost',next_action:'runtime start will recover after the owned child exits',exit_code:6};
+    return fixture;
+  }};
+  const service=new StateService(runner,'demo',config); t.after(()=>service.dispose());
+  service.state.supported=true;
+  await service.refresh(true);
+  assert.equal(service.state.runtime.state,'stale');
+  assert.equal(service.state.error,'owner_host_lost');
+  assert.equal(service.state.connected,false);
+});
 test('unreachable engine clears stale metrics and recovers on next refresh', async t => {
   let fail = false;
   const runner = {json: async args => {

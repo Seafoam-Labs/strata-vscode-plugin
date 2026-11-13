@@ -13,12 +13,14 @@ export class Operations {
     const plan = await cli.json(previewArgs, { signal });
     const args = guardedRuntimeArgs(action, profile, plan);
     if (!await review(plan, args) || signal?.aborted) return;
-    // Start has no public revision flags in 0.2.8: recheck the complete plan.
+    // Start has no public revision flags through 0.2.13: recheck the complete plan.
     // This narrows the race but cannot provide a server-side compare-and-swap.
     if (action === 'start') {
       const fresh = await cli.json(previewArgs, { signal });
       if (JSON.stringify(fresh) !== JSON.stringify(plan)) throw new Error('Start plan changed during review. Preview it again.');
     }
-    return cli.json(args, { signal, timeout: 660000 });
+    // Cover the CLI's own default waits (restart drains and reloads for up to 1000 s in 0.2.13)
+    // plus margin, so a legitimate slow lifecycle is not aborted before the CLI answers.
+    return cli.json(args, { signal, timeout: 1060000 });
   }
 }

@@ -49,7 +49,7 @@ export class StateService {
     const version = (await cli.raw(['--version'])).stdout.trim();
     this.state.version = version;
     this.state.supported = supportedVersion(version);
-    if (!this.state.supported) this.state.error = `Untested Strata version: ${version}. This extension supports 0.2.8. Commands are disabled; configure a compatible executable.`;
+    if (!this.state.supported) this.state.error = `Untested Strata version: ${version}. This extension supports Strata 0.2.8 and 0.2.13.x. Commands are disabled; configure a compatible executable.`;
     this.emit();
   }
   reset(cli: Runner): void {

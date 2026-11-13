@@ -51,12 +51,14 @@ export function snapshotOf(data: JsonObject): JsonObject {
   return s;
 }
 export function runtimeOf(data: JsonObject): JsonObject {
-  if (!['ready', 'starting', 'stopped', 'failed', 'stopping', 'draining', 'unknown'].includes(text(data.state))) throw new Error('Unsupported runtime state response.');
+  // `stale` (0.2.13+): the owner host was lost; `runtime start` is the upstream recovery path.
+  if (!['ready', 'starting', 'stopped', 'failed', 'stopping', 'draining', 'stale', 'unknown'].includes(text(data.state))) throw new Error('Unsupported runtime state response.');
   return data;
 }
 export function supportedVersion(version: string): boolean {
-  // Deliberately conservative until another release has contract fixtures.
-  return /^strata 0\.2\.8\b/.test(version.trim());
+  // Fail closed on untested releases. Contracts are checked against 0.2.8/build 0.1.54 and
+  // 0.2.13.1/build 0.1.59.1; accept those families (including their patch revisions) only.
+  return /^strata 0\.2\.(8|13)(\.\d+)?\b/.test(version.trim());
 }
 export const fields = ['host', 'port', 'parallel', 'batch_groups', 'max_queue', 'queue_timeout', 'offline', 'batch_telemetry'] as const;
 export function assignments(value: unknown): string[] {

@@ -1,12 +1,13 @@
 # Validation and release qualification
 
-Implementation date: 2026-10-30. This is a **0.1.0 preview**, with the following automated checks and explicit limits.
+Implementation date: 2026-10-30; Strata 0.2.13 compatibility updated 2026-11-13. This is a **0.1.1 preview**, with the following automated checks and explicit limits.
 
 ## Executed checks
 
 - Strict TypeScript checks for the extension host and browser frontend.
-- Eleven automated tests covering CLI argument boundaries, Unicode, partial/malformed/oversized JSON, errors, timeouts, cancellation, secret redaction, runtime identity guards, changed start previews, serialized operations, stale profile responses, bounded activity, connection recovery, and DOM rendering/interactions.
+- Twelve automated tests covering CLI argument boundaries, Unicode, partial/malformed/oversized JSON, errors, timeouts, cancellation, secret redaction, runtime identity guards, changed start previews, serialized operations, stale profile responses, the 0.2.13 `stale` owner state, bounded activity, connection recovery, and DOM rendering/interactions.
 - Real installed Strata 0.2.8/build 0.1.54: profile/model inventory and help/source contract inspection; profile creation, validation, change preview, editing, history, rollback, and runtime start preview in a temporary `STRATA_PROFILE_DIR`. Existing user profiles and engine processes remain unchanged.
+- Real installed Strata 0.2.13.1/build 0.1.59.1: version gate acceptance, profile/model inventory, the same isolated profile create/validate/preview/edit/history/rollback/start-preview contract check, and source inspection of the new `stale` runtime state, `split-engine` command, and unchanged schema-v1 envelopes, guards, and settings bounds. No engine was started.
 - VS Code 1.96.4 (minimum API baseline), VS Code 1.144.0, and VSCodium 1.143.1 (installed build 1.143.17232): isolated editor activation, native command registration, source document alongside sidebar, fake-CLI profile selection, metrics and logs, expanded dashboard, and sidebar/dashboard script handshakes.
 - VSIX packaging includes compiled host modules, browser script/styles, icon, manifest, license, README and documentation. Build tools, source tests, and node_modules are excluded.
 

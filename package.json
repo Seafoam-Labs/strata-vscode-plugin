@@ -2,7 +2,7 @@
   "name": "strata-control",
   "displayName": "Strata Control",
   "description": "A live Strata sidebar: local engine controls, performance, profiles, models, logs, and terminal workflows.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "strata-local",
   "license": "MIT",
   "engines": {

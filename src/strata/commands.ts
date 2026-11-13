@@ -3,6 +3,7 @@ export const commands: CommandInfo[] = [
   ['runtime', 'Engine', 'Start, stop, restart, inspect, and verify owned local instances.', 'Changes engine'],
   ['serve', 'Engine', 'Run the inference server in the foreground.', 'Runs workload'],
   ['engine', 'Engine', 'Measure, review, and apply engine calibration.', 'Changes engine'],
+  ['split-engine', 'Engine', 'Write the all-cards split engine run config when the rule allows it.', 'May write configuration'],
   ['profile', 'Models and profiles', 'Create, validate, edit, and restore serving profiles.', 'Changes settings'],
   ['models', 'Models and profiles', 'List, inspect, import, or move local model files.', 'May move files'],
   ['presets', 'Models and profiles', 'Manage retained tuning presets.', 'Changes settings'],

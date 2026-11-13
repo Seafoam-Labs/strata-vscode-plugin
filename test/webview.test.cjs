@@ -15,6 +15,9 @@ test('sidebar renders telemetry safely, preserves edited fields, and sends typed
   const post=()=>dom.window.dispatchEvent(new dom.window.MessageEvent('message',{data:{type:'state',state}}));
   const $=id=>dom.window.document.getElementById(id);
   post(); assert.equal($('decode').textContent,'42.5'); assert.equal($('start').disabled,false);
+  state.runtime={state:'stale'}; post(); assert.equal($('start').disabled,false); // 0.2.13 stale owner: Start is the recovery path
+  state.runtime={state:'ready'}; post(); assert.equal($('start').disabled,true);
+  state.runtime={state:'stopped'}; post();
   assert.equal($('logs').querySelector('img'),null);
   $('field-parallel').value='2'; post(); assert.equal($('field-parallel').value,'2');
   $('settingsForm').dispatchEvent(new dom.window.Event('submit',{cancelable:true}));
